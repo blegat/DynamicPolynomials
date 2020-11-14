@@ -42,14 +42,11 @@ macro ncpolyvar(args...)
 end
 
 struct PolyVar{C} <: AbstractVariable
-    id::Int
+    id::UInt
     name::String
 
     function PolyVar{C}(name::AbstractString) where {C}
-        # gensym returns something like Symbol("##42")
-        # we first remove "##" and then parse it into an Int
-        id = parse(Int, string(gensym())[3:end])
-        new(id, convert(String, name))
+        new(hash(name), convert(String, name))
     end
 end
 
